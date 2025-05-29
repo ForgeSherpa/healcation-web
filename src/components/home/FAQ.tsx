@@ -11,7 +11,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-gray-200 last:border-b-0">
+    <div className="border-b border-gray-200 last:border-b-0 p-2">
       <button
         className="flex items-center justify-between w-full py-4 text-left"
         onClick={() => setIsOpen(!isOpen)}
@@ -48,20 +48,12 @@ const FAQ: React.FC = () => {
       answer: 'Yes! Healcation covers destinations around the world. Our database includes over 100 countries and thousands of cities, with new locations added regularly.',
     },
     {
-      question: 'Can I book my entire vacation through the app?',
-      answer: 'Absolutely! Healcation offers end-to-end booking capabilities for flights, accommodations, attractions, and transportation. You can book individual components or complete vacation packages.',
-    },
-    {
-      question: 'What happens if my travel plans change?',
-      answer: 'Healcation makes it easy to modify your bookings. Most reservations can be changed or canceled directly through the app, subject to the cancellation policies of each service provider.',
-    },
-    {
       question: 'Are there any subscription fees to use Healcation?',
-      answer: 'Healcation offers both free and premium tiers. The basic version is completely free to use, while Healcation Premium unlocks advanced features like unlimited itineraries, priority customer support, and exclusive deals for $9.99/month.',
+      answer: 'Healcation is completely free to use! We believe in making travel planning accessible to everyone. You can explore destinations, get recommendations, and plan your trips without any costs (not even an ads!)',
     },
     {
       question: 'How does Healcation protect my privacy?',
-      answer: 'We take your privacy seriously. All personal data is encrypted, and we never sell your information to third parties. You can review our complete Privacy Policy to learn more about how we protect your data.',
+      answer: 'Healcation did not save any personal data. We only require destination name and email, nothing more. Your email is stored and not shared with any third parties. We use industry-standard encryption to protect your data and ensure your privacy is always respected.',
     },
   ];
 
@@ -89,7 +81,7 @@ const FAQ: React.FC = () => {
           <p className="mb-6 text-lg text-black/80">
             Still have questions? We're here to help!
           </p>
-          <a href="#" className="btn btn-primary">
+          <a href="mailto:healcation@gmail.com" className="btn btn-primary">
             Contact Support
           </a>
         </div>

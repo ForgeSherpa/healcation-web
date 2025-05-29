@@ -4,12 +4,14 @@
 
 Healcation is application that uses artificial intelligence to help you plan the perfect vacation. Simply enter your destination and preferences, and let our AI recommend attractions, hotels, and create your ideal travel itinerary.
 
-This Web (ironically including the readme) is 70% vibe-coded, yes not 100% because they still make errors and I had to fix it. Additionally, I also
+This Web (ironically including the readme) is 90% vibe-coded, yes not 100% because they still make errors and I had to fix it. Additionally, I also
 migrated the tailwindcss from v3 -> v4, react router -> tanstack router, fixes deprecations, etc etc etc.
 
 Why vibe-coding? why should I code if they can?
 
 Keep in mind, that our app is not vibe-coded, the landing page is. Also, this landing page have gone through manual review.
+
+Ok, I did make changes but I use prompt (Claude Sonnet 4) for it, so basically 90% now.
 
 ![Healcation Hero](public/logo512.png)
 

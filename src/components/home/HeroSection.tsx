@@ -1,7 +1,32 @@
-import { motion } from 'framer-motion';
-import { MapPin, Calendar, Hotel, Navigation } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MapPin, Hotel, Navigation } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const HeroSection: React.FC = () => {
+  const [currentDestination, setCurrentDestination] = useState(0);
+  
+  const destinations = [
+    {
+      image: "/ss/ss2.jpeg",
+      title: "Paris Getaway",
+      subtitle: "Perfect 5-day itinerary",
+      price: "est $1,299"
+    },
+    {
+      image: "/ss/ss1.jpeg",
+      title: "Bali Retreat",
+      subtitle: "7 days of relaxation",
+      price: "est $1,799"
+    }
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentDestination((prev) => (prev + 1) % destinations.length);
+    }, 4000); // Switch every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [destinations.length]);
   return (
     <section className="relative overflow-hidden bg-background pt-20 pb-16 md:pt-24 md:pb-24">
       <div className="container relative z-10">
@@ -47,12 +72,6 @@ const HeroSection: React.FC = () => {
                 </div>
                 <span className="text-sm font-medium">5,000+ Attractions</span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary">
-                  <Calendar size={16} className="text-white" />
-                </div>
-                <span className="text-sm font-medium">Easy Booking</span>
-              </div>
             </div>
           </motion.div>
 
@@ -64,48 +83,58 @@ const HeroSection: React.FC = () => {
             className="relative flex justify-center lg:justify-end"
           >
             <div className="relative w-64 md:w-80">
-              <div className="absolute -top-4 -right-4 -left-4 -bottom-4 bg-primary/10 rounded-3xl transform rotate-6"></div>
+              <div className="absolute -top-4 -right-4 -left-4 -bottom-4 bg-primary/10 rounded-3xl transform rotate-3"></div>
               <div className="relative overflow-hidden border-8 border-white rounded-3xl shadow-2xl">
-                <img 
-                  src="https://images.pexels.com/photos/3943859/pexels-photo-3943859.jpeg?auto=compress&cs=tinysrgb&w=600" 
-                  alt="Healcation App Preview" 
-                  className="w-full"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent">
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="text-lg font-bold text-white">Paris Getaway</h3>
-                    <p className="text-white/90">Perfect 5-day itinerary</p>
-                    <div className="flex items-center justify-between mt-3">
-                      <span className="text-white font-medium">$1,299</span>
-                      <button className="px-3 py-1 text-xs font-medium text-primary bg-white rounded-full">
-                        View Details
-                      </button>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentDestination}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.5 }}
+                    className="relative"
+                  >
+                    <img 
+                      src={destinations[currentDestination].image}
+                      alt="Healcation App Preview" 
+                      className="w-full aspect-[9/16] object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/70 to-transparent">
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <h3 className="text-lg font-bold text-white">
+                          {destinations[currentDestination].title}
+                        </h3>
+                        <p className="text-white/90">
+                          {destinations[currentDestination].subtitle}
+                        </p>
+                        <div className="flex items-center justify-between mt-3">
+                          <span className="text-white font-medium">
+                            {destinations[currentDestination].price}
+                          </span>
+                          <button className="px-3 py-1 text-xs font-medium text-primary bg-white rounded-full hover:bg-white/90 transition-colors">
+                            View Details
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
-            </div>
-            {/* Second App Mockup (Offset) */}
-            <div className="absolute w-64 md:w-80 left-20 lg:left-auto lg:right-16 top-16">
-              <div className="absolute -top-4 -right-4 -left-4 -bottom-4 bg-primary/10 rounded-3xl transform -rotate-6"></div>
-              <div className="relative overflow-hidden border-8 border-white rounded-3xl shadow-2xl">
-                <img 
-                  src="https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&cs=tinysrgb&w=600" 
-                  alt="Healcation App Second Preview" 
-                  className="w-full"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent">
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="text-lg font-bold text-white">Bali Retreat</h3>
-                    <p className="text-white/90">7 days of relaxation</p>
-                    <div className="flex items-center justify-between mt-3">
-                      <span className="text-white font-medium">$1,799</span>
-                      <button className="px-3 py-1 text-xs font-medium text-primary bg-white rounded-full">
-                        View Details
-                      </button>
-                    </div>
-                  </div>
-                </div>
+              
+              {/* Destination Indicators */}
+              <div className="flex justify-center gap-2 mt-4">
+                {destinations.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentDestination(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentDestination 
+                        ? 'bg-primary w-6' 
+                        : 'bg-primary/30 hover:bg-primary/50'
+                    }`}
+                    aria-label={`Switch to destination ${index + 1}`}
+                  />
+                ))}
               </div>
             </div>
           </motion.div>

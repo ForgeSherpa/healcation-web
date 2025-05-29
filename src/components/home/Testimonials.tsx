@@ -25,7 +25,7 @@ const Testimonials: React.FC = () => {
       name: 'Sarah Johnson',
       location: 'London, UK',
       image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600',
-      rating: 4,
+      rating: 5,
       text: 'The app saved me hours of research for our anniversary trip to Italy. The hotel recommendations were luxurious yet affordable, exactly what we wanted!',
     },
     {

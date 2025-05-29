@@ -6,7 +6,7 @@ import {
   Camera, 
   Navigation, 
   Route, 
-  ShieldCheck, 
+  Sparkles, 
   Clock 
 } from 'lucide-react';
 
@@ -24,8 +24,8 @@ const FeaturesSection: React.FC = () => {
     },
     {
       icon: <Hotel className="text-primary" size={28} />,
-      title: 'Hotel Finder',
-      description: 'Compare and book accommodations that match your budget and preferences.',
+      title: 'Smart Accommodation Guide',
+      description: 'Get AI-curated recommendations for hotels and stays that match your preferences.',
     },
     {
       icon: <Camera className="text-primary" size={28} />,
@@ -43,9 +43,9 @@ const FeaturesSection: React.FC = () => {
       description: 'Create day-by-day itineraries optimized for your travel style.',
     },
     {
-      icon: <ShieldCheck className="text-primary" size={28} />,
-      title: 'Secure Booking',
-      description: 'Book with confidence using our secure, transparent payment system.',
+      icon: <Sparkles className="text-primary" size={28} />,
+      title: 'Personalized Insights',
+      description: 'Get tailored travel tips and insights based on your interests and travel history.',
     },
     {
       icon: <Clock className="text-primary" size={28} />,

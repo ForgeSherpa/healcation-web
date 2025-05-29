@@ -1,31 +1,65 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, CalendarCheck, Palette, Hotel } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const HowItWorks: React.FC = () => {
+  const [currentDestinationImage, setCurrentDestinationImage] = useState(0);
+  
+  const destinationImages = [
+    { 
+      url: 'https://images.pexels.com/photos/2506923/pexels-photo-2506923.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      alt: 'Tokyo, Japan'
+    },
+    { 
+      url: 'https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&cs=tinysrgb&w=600',
+      alt: 'Bali, Indonesia'
+    },
+    { 
+      url: 'https://images.pexels.com/photos/1850619/pexels-photo-1850619.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      alt: 'Paris, France'
+    },
+    { 
+      url: 'https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      alt: 'Santorini, Greece'
+    },
+    { 
+      url: 'https://images.pexels.com/photos/1483053/pexels-photo-1483053.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      alt: 'Maldives'
+    }
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentDestinationImage((prev) => (prev + 1) % destinationImages.length);
+    }, 3000); // Switch every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [destinationImages.length]);
+
   const steps = [
     {
       icon: <MapPin size={24} className="text-white" />,
       title: 'Choose Your Destination',
       description: 'Enter your dream destination or let our AI suggest places based on your interests.',
-      image: 'https://images.pexels.com/photos/4553618/pexels-photo-4553618.jpeg?auto=compress&cs=tinysrgb&w=600',
+      image: 'slideshow', // Special marker for slideshow
     },
     {
       icon: <CalendarCheck size={24} className="text-white" />,
       title: 'Set Your Dates',
       description: 'Select your travel dates and duration to find the best options available.',
-      image: 'https://images.pexels.com/photos/6863175/pexels-photo-6863175.jpeg?auto=compress&cs=tinysrgb&w=600',
+      image: 'https://images.pexels.com/photos/273153/pexels-photo-273153.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     },
     {
       icon: <Palette size={24} className="text-white" />,
       title: 'Choose Activities',
       description: 'Browse AI-recommended attractions, activities, and experiences tailored to you.',
-      image: 'https://images.pexels.com/photos/1268079/pexels-photo-1268079.jpeg?auto=compress&cs=tinysrgb&w=600',
+      image: 'https://images.pexels.com/photos/1630039/pexels-photo-1630039.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     },
     {
       icon: <Hotel size={24} className="text-white" />,
-      title: 'Book Your Stay',
+      title: 'Save Your List',
       description: 'Select from curated accommodations and finalize your perfect vacation package.',
-      image: 'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=600',
+      image: 'https://images.pexels.com/photos/2577274/pexels-photo-2577274.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     },
   ];
 
@@ -70,11 +104,41 @@ const HowItWorks: React.FC = () => {
 
               <div className={`relative ${index % 2 === 0 ? 'md:order-last' : 'md:order-first'}`}>
                 <div className="absolute inset-0 bg-primary/20 rounded-xl transform rotate-3"></div>
-                <img
-                  src={step.image}
-                  alt={step.title}
-                  className="relative z-10 object-cover w-full h-64 rounded-xl shadow-lg md:h-80"
-                />
+                {step.image === 'slideshow' ? (
+                  <div className="relative z-10 w-full h-64 md:h-80 rounded-xl shadow-lg overflow-hidden">
+                    <AnimatePresence mode="wait">
+                      <motion.img
+                        key={currentDestinationImage}
+                        src={destinationImages[currentDestinationImage].url}
+                        alt={destinationImages[currentDestinationImage].alt}
+                        initial={{ opacity: 0, scale: 1.1 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.8 }}
+                        className="object-cover w-full h-full"
+                      />
+                    </AnimatePresence>
+                    {/* Destination label overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/80 to-transparent p-4">
+                      <motion.p 
+                        key={currentDestinationImage}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="text-white font-medium text-sm"
+                      >
+                        {destinationImages[currentDestinationImage].alt}
+                      </motion.p>
+                    </div>
+                  </div>
+                ) : (
+                  <img
+                    src={step.image}
+                    alt={step.title}
+                    className="relative z-10 object-cover w-full h-64 rounded-xl shadow-lg md:h-80"
+                  />
+                )}
               </div>
             </motion.div>
           ))}
