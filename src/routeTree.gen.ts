@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as PrivacyPolicyImport } from './routes/privacy-policy'
+import { Route as SplatImport } from './routes/$'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
@@ -19,6 +20,12 @@ import { Route as IndexImport } from './routes/index'
 const PrivacyPolicyRoute = PrivacyPolicyImport.update({
   id: '/privacy-policy',
   path: '/privacy-policy',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SplatRoute = SplatImport.update({
+  id: '/$',
+  path: '/$',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,6 +46,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatImport
+      parentRoute: typeof rootRoute
+    }
     '/privacy-policy': {
       id: '/privacy-policy'
       path: '/privacy-policy'
@@ -53,36 +67,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/privacy-policy'
+  fullPaths: '/' | '/$' | '/privacy-policy'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/privacy-policy'
-  id: '__root__' | '/' | '/privacy-policy'
+  to: '/' | '/$' | '/privacy-policy'
+  id: '__root__' | '/' | '/$' | '/privacy-policy'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SplatRoute: typeof SplatRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SplatRoute: SplatRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
 }
 
@@ -97,11 +116,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/$",
         "/privacy-policy"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/$": {
+      "filePath": "$.tsx"
     },
     "/privacy-policy": {
       "filePath": "privacy-policy.tsx"
